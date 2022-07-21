@@ -37,15 +37,19 @@
                             {{ $row->constructionyear }}
                         </td>
                         <td class="text-right action_buttons">
-                            <a href="{{ route('building.show', $row->id) }}" title="Show Building">
-                                <i class="material-icons">Show</i>
-                            </a>
-                            <a href="{{ route('building.edit', $row->id) }}" title="Edit">
-                                <i class="material-icons">edit</i>
-                            </a>
-                            <a href="{{ route('building.destroy', $row->id) }}" title="Delete">
-                                <i class="material-icons">delete</i>
-                            </a>
+                            <form id="delete_form" action="{{ route('building.destroy',$row->id) }}" method="POST">
+                                <a href="{{ route('building.create', $row->id) }}" title="Create Building">
+                                    <i class="material-icons">preview</i>
+                                </a>
+                                <a href="{{ route('building.edit', $row->id) }}" title="Edit">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            @csrf
+                                @method('DELETE')
+                            <a href="javascript:void(0);" onclick="document.getElementById('delete_form').submit();">
+                                    <i class="material-icons">delete</i>
+                                </a>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
