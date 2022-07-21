@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Building extends Model
 {
     use HasFactory;
+
+    protected $table = 'buildings';
+        public $timestamps = true;
+    
+    protected $casts = [];
+
+    protected $fillable = [
+            'title',
+            'description',
+            'architect',
+            'constructionyear',
+            'created_at'
+        ];
 }
