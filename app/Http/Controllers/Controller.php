@@ -11,3 +11,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
+
+protected function redirectTo()
+    {
+        if (Auth::user()->user_type == 'Administrator')
+        {
+        return 'admin';  // admin dashboard path
+        } else {
+        return '';  // member dashboard path
+        }
+    }

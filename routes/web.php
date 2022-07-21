@@ -41,4 +41,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
          */
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
     });
+
+    // Route::middleware(['auth', 'isAdmin'])->group(function () {
+    //     Route::get('/admin', function () {
+    //       return view('dashboards.admin');
+    //     })->name('dashboard');
+    //   });
+
+    Route::get('/admin', function () {
+        return view('home.index');
+    });
 });
