@@ -9,6 +9,9 @@
             <div class="card-header">
                 <h4 class="card-title"> Building</h4>
             </div>
+            <a href="{{ route('building.create') }}" title="Create">
+                <i class="material-icons">create</i>
+            </a>
             <div class="card-body">
                 <table class="table" id="building_table">
                 <thead class=" text-primary">
@@ -37,20 +40,20 @@
                             {{ $row->constructionyear }}
                         </td>
                         <td class="text-right action_buttons">
-                            <form id="delete_form" action="{{ route('building.destroy',$row->id) }}" method="POST">
-                                <a href="{{ route('building.create', $row->id) }}" title="Create Building">
-                                    <i class="material-icons">preview</i>
-                                </a>
-                                <a href="{{ route('building.edit', $row->id) }}" title="Edit">
-                                    <i class="material-icons">edit</i>
-                                </a>
-                            @csrf
-                                @method('DELETE')
-                            <a href="javascript:void(0);" onclick="document.getElementById('delete_form').submit();">
-                                    <i class="material-icons">delete</i>
-                                </a>
-                            </form>
-                        </td>
+                        <a href="{{ route('building.show', $row->id) }}" title="Show Building">
+                            <i class="material-icons">preview</i>
+                        </a>
+                        <a href="{{ route('building.edit', $row->id) }}" title="Edit">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        @csrf
+                        @method('DELETE')
+                        <form action="{{ url('building' , $row->id ) }}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button>Delete</button>
+                        </form>
+                    </td>
                     </tr>
                     @endforeach
                 </tbody>
