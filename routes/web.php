@@ -51,4 +51,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/admin', function () {
         return view('home.index');
     });
+    Route::resource('building',BuildingController::class);
+
 });
