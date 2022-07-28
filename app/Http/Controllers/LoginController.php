@@ -53,4 +53,14 @@ class LoginController extends Controller
     {
         return redirect()->intended();
     }
+
+    protected function redirectTo()
+    {
+        if (Auth::user()->user_type == 'Administrator')
+        {
+        return 'admin';  // admin dashboard path
+        } else {
+        return '';  // member dashboard path
+        }
+    }
 }
