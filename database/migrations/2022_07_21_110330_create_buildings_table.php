@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('architect');
             $table->decimal('constructionyear', $precision = 4, $scale = 0);
             $table->longText('description');
+            $table->enum('type', ['Commercial', 'Residential', 'Transport']);
             $table->timestamps();
         });
     }

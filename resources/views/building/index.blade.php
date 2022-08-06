@@ -3,46 +3,36 @@
     BUILDING | SGWEBFREELANCER
 @endsection
 @section('content')
-<div class="row">
+<div class="row mt-4">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title"> Building</h4>
-            </div>
-            <a href="{{ route('building.create') }}" title="Create">
-                <i class="material-icons">create</i>
+                <h4 class="card-title"> Buildings</h4>
+                <a href="{{ route('building.create') }}" class="btn btn-primary">Add new building</a>
             </a>
+            </div>
+           
             <div class="card-body">
-                <table class="table" id="building_table">
-                <thead class=" text-primary">
-                    <th>
-                        Title
-                    </th>
-                    <th>
-                        Architect
-                    </th>
-                    <th>
-                        Construction Year
-                    </th>
-                    <th class="text-right">
-                    </th>
-                </thead>
-                <tbody>
-                    @foreach ($buildings as $row)
-                    <tr>
-                        <td>
-                            {{ $row->title }}
-                        </td>
-                        <td>
-                            {{ $row->architect }}
-                        </td>  
-                        <td>
-                            {{ $row->constructionyear }}
-                        </td>
-                        <td class="text-right action_buttons">
-                        <a href="{{ route('building.show', $row->id) }}" title="Show Building">
-                            <i class="material-icons">preview</i>
-                        </a>
+                <div class="container">
+                <div class="row">
+                @foreach ($buildings as $row)
+                <div class="col-sm">
+                        <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src=".../100px180/" alt="{{ $row->title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $row->title }} ({{ $row->constructionyear}})</h5>
+                            <p class="card-text">Architect: {{ $row->architect}}</p>
+                            <p class="card-text">{{ $row->description}}</p>
+                            <a href="{{ route('building.show', $row->id) }}" class="btn btn-primary">Show</a>
+                            <a href="{{ route('building.edit', $row->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ url('building' , $row->id ) }}" method="POST" class="d-inline">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        </div>
+                    {{-- <tr>
                         <a href="{{ route('building.edit', $row->id) }}" title="Edit">
                             <i class="material-icons">edit</i>
                         </a>
@@ -54,10 +44,12 @@
                             <button>Delete</button>
                         </form>
                     </td>
-                    </tr>
+                    </tr> --}}
+                    </div>
                     @endforeach
-                </tbody>
-                </table>
+                </div>
+                </div>
+                    
                 </div>        
                 </div>
             <div>

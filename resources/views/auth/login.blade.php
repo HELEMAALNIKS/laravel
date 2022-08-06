@@ -25,8 +25,16 @@
                 <span class="text-danger text-left">{{ $errors->first('password') }}</span>
             @endif
         </div>
+            <div class="row">
+                <div class="col-sm">
+                    <a href="/register" class="w-100 btn btn-lg btn-secondary">Register</a>
+                </div>
+                <div class="col-sm">
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+            </div>
+        </div>
+
         
         @include('auth.partials.copy')
     </form>

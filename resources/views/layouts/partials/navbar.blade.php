@@ -1,35 +1,53 @@
-<header class="p-3 bg-dark text-white">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-      </a>
-
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Item 1</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Item 2</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Item 3</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Item 4</a></li>
-      </ul>
-
-      <form action="{{ route('search') }}"  method="GET" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input name="search" type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-      </form>
-
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Building Manager 2.0</a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+        @guest
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Buildings</a>
+          </li>
+        @endguest
+        @auth
+          <li class="nav-item">
+            <a class="nav-link" href="building">Buildings</a>
+          </li>
+        @if(auth()->user()->user_type === "Administrator")
+          <li class="nav-item">
+            <a class="nav-link" href="admin">Admin</a>
+          </li>
+        @endif
+        @endauth
+      {{-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> --}}
+    </ul>
+      <form action="{{ route('search') }}"  method="GET" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
       @auth
-        {{auth()->user()->username}}
+         <a class=ml-2>Welkom {{auth()->user()->username}}<a>
         <div class="text-end">
-          <a href="{{ route('logout') }}" class="btn btn-outline-light me-2">Logout</a>
+          <a href="{{ route('logout') }}" class="btn btn-dark ml-2">Logout</a>
         </div>
       @endauth
-
       @guest
         <div class="text-end">
-          <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Login</a>
+          <a href="{{ route('login') }}" class="btn btn-dark ml-2">Login</a>
           <a href="{{ route('register') }}" class="btn btn-warning">Sign-up</a>
         </div>
       @endguest
-    </div>
   </div>
 </header>
+
+
