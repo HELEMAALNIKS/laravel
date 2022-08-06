@@ -24,14 +24,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * Register Routes
          */
-        Route::get('/register', 'RegisterController@show')->name('register.show');
-        Route::post('/register', 'RegisterController@register')->name('register.perform');
+        Route::get('/register', 'RegisterController@show')->name('register');
+        Route::post('/register', 'RegisterController@register')->name('register');
 
         /**
          * Login Routes
          */
-        Route::get('/login', 'LoginController@show')->name('login.show');
-        Route::post('/login', 'LoginController@login')->name('login.perform');
+        Route::get('/login', 'LoginController@show')->name('login');
+        Route::post('/login', 'LoginController@login')->name('login');
 
     });
 
@@ -39,7 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * Logout Routes
          */
-        Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
+        Route::get('/logout', 'LogoutController@perform')->name('logout');
     });
 
     // Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -51,6 +51,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/admin', function () {
         return view('home.index');
     });
-    Route::resource('building',BuildingController::class);
+    Route::resource('building',BuildingController::class)->middleware('auth');
 
 });
