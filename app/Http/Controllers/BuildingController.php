@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBuildingRequest;
 use App\Http\Requests\UpdateBuildingRequest;
+use Illuminate\Http\Request;
 use App\Models\Building;
 
 class BuildingController extends Controller
@@ -17,6 +18,22 @@ class BuildingController extends Controller
     {
         $buildings = Building::all();
         return view('building.index', compact('buildings'));      
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->input('search');
+    
+        // Search in the title and body columns from the posts table
+        $buildings = Building::query()
+            ->where('title', 'LIKE', "%{$q}%")
+            ->orWhere('description', 'LIKE', "%{$q}%")
+            ->orWhere('architect', 'LIKE', "%{$q}%")
+            ->orWhere('constructionyear', 'LIKE', "%{$q}%")
+            ->get();
+    
+        // Return the search view with the resluts compacted
+        return view('building.search', compact('buildings'));
     }
 
     /**

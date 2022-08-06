@@ -53,4 +53,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     // });
     Route::resource('building',BuildingController::class)->middleware('auth');
 
+    Route::get('search/', 'BuildingController@search')->name('search');
+
 });
