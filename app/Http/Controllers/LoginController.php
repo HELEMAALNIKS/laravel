@@ -38,7 +38,7 @@ class LoginController extends Controller
 
         Auth::login($user);
 
-        return $this->authenticated($request, $user);
+        return $this->redirectTo($request, $user);
     }
 
     /**
@@ -58,7 +58,7 @@ class LoginController extends Controller
     {
         if (Auth::user()->user_type == 'Administrator')
         {
-        return 'admin';  // admin dashboard path
+        return redirect('admin');  // admin dashboard path
         } else {
         return '';  // member dashboard path
         }

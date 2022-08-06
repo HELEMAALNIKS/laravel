@@ -42,15 +42,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/logout', 'LogoutController@perform')->name('logout');
     });
 
-    // Route::middleware(['auth', 'isAdmin'])->group(function () {
-    //     Route::get('/admin', function () {
-    //       return view('dashboards.admin');
-    //     })->name('dashboard');
-    //   });
+    Route::middleware(['auth', 'isAdmin'])->group(function () {
+        Route::get('/admin', function () {
+          return view('dashboards.admin');
+        })->name('dashboard');
+      });
 
-    Route::get('/admin', function () {
-        return view('home.index');
-    });
+    // Route::get('/admin', function () {
+    //     return view('dashboards.admin');
+    // });
     Route::resource('building',BuildingController::class)->middleware('auth');
 
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AdminMiddleware
@@ -16,7 +17,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (\Auth::user()->user_type == 'Administrator'){
+        if (Auth::user()->user_type == 'Administrator'){
             return $next($request);
         } else {
             return redirect('/login');
