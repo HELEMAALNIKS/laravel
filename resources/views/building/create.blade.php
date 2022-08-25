@@ -14,7 +14,7 @@
         </ul>
     </div>
 @endif
-<form action="{{ route('building.store') }}" method="POST">
+<form action="{{ route('building.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -42,6 +42,13 @@
                 <strong>Description:</strong>
                 <textarea class="form-control" style="height:50px" name="description"
                     placeholder="description"></textarea>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Image:</strong>
+                <input type="file" name="image" class="form-control"
+                    placeholder="Image">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">

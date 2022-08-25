@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBuildingRequest;
 use App\Http\Requests\UpdateBuildingRequest;
 use Illuminate\Http\Request;
 use App\Models\Building;
+use Illuminate\Support\Facades\File;
 
 class BuildingController extends Controller
 {
@@ -59,9 +60,20 @@ class BuildingController extends Controller
             'architect' => 'required',
             'constructionyear' => 'required',
             'description' => 'required',
-        ]);      
+            'image' => 'required|mimes:jpeg,jpg,bmp,png|max:32768'
+        ]);
+        
+        $newImageName = time() . '-' . $request->title . '.' . $request->image->extension();
 
-        Building::create($request->all());
+        $request->image->move(public_path('images'), $newImageName);
+
+        $building = Building::create([
+            'title' => $request->input('title'),
+            'architect' => $request->input('architect'),
+            'constructionyear' => $request->input('constructionyear'),
+            'description' => $request->input('description'),
+            'image_path' => $newImageName
+        ]);
         return redirect()->route('building.index')->with('success', 'Building created successfully.');
     }
 
@@ -94,15 +106,33 @@ class BuildingController extends Controller
      * @param  \App\Models\Building  $building
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBuildingRequest $request, Building $building)
+    public function update(Request $request, Building $building)
     {
         $request->validate([
             'title' => 'required',
             'architect' => 'required',
             'constructionyear' => 'required',
             'description' => 'required',
+            'image' => 'mimes:jpeg,jpg,bmp,png|max:32768'
+
+        ]);       
+        if($request->hasfile('image')){
+            $imageName = time() . '-' . $request->title . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            File::delete(public_path("images/" . $building->image_path));
+        } 
+        else
+        {
+            $imageName  = $building->image_path;
+        }
+
+        Building::where('id', $building->id)->update([
+            'title' => $request->input('title'),
+            'architect' => $request->input('architect'),
+            'constructionyear' => $request->input('constructionyear'),
+            'description' => $request->input('description'),
+            'image_path' => $imageName
         ]);        
-        $building->update($request->all());        
         return redirect()->route('building.index')->with('success', 'Building updated successfully.');
     }
 
@@ -114,6 +144,7 @@ class BuildingController extends Controller
      */
     public function destroy(Building $building)
     {
+        File::delete(public_path("images/" . $building->image_path));
         $building->delete();
         return redirect()->route('building.index')
         ->with('success', 'Building deleted successfully');

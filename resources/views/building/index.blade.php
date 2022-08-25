@@ -18,7 +18,7 @@
                 @foreach ($buildings as $row)
                 <div class="col-sm">
                         <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src=".../100px180/" alt="{{ $row->title }}">
+                        <img class="card-img-top" src="{{ asset('images/' . $row->image_path) }}" alt="{{ $row->title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $row->title }} ({{ $row->constructionyear}})</h5>
                             <p class="card-text">Architect: {{ $row->architect}}</p>
