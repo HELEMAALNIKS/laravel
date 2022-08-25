@@ -93,6 +93,7 @@ class BuildingController extends Controller
     public function show(Building $building)
     {
         return view('building.show', compact('building'));
+        
     }
 
     /**
@@ -103,7 +104,11 @@ class BuildingController extends Controller
      */
     public function edit(Building $building)
     {
-        return view('building.edit', compact('building'));
+        if(Auth::user()->id === $building->user_id || Auth::user()->user_type === 'Administrator'){
+            return view('building.edit', compact('building'));
+        } else {
+            return redirect()->route('building.index')->with('failure', "Error, not allowed");
+        }
     }
 
     /**
@@ -115,32 +120,36 @@ class BuildingController extends Controller
      */
     public function update(Request $request, Building $building)
     {
-        $request->validate([
-            'title' => 'required',
-            'architect' => 'required',
-            'constructionyear' => 'required',
-            'description' => 'required',
-            'image' => 'mimes:jpeg,jpg,bmp,png|max:32768'
-
-        ]);       
-        if($request->hasfile('image')){
-            $imageName = time() . '-' . $request->title . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            File::delete(public_path("images/" . $building->image_path));
-        } 
-        else
-        {
-            $imageName  = $building->image_path;
+        if(Auth::user()->id === $building->user_id || Auth::user()->user_type === 'Administrator'){
+            $request->validate([
+                'title' => 'required',
+                'architect' => 'required',
+                'constructionyear' => 'required',
+                'description' => 'required',
+                'image' => 'mimes:jpeg,jpg,bmp,png|max:32768'
+    
+            ]);       
+            if($request->hasfile('image')){
+                $imageName = time() . '-' . $request->title . '.' . $request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
+                File::delete(public_path("images/" . $building->image_path));
+            } 
+            else
+            {
+                $imageName  = $building->image_path;
+            }
+    
+            Building::where('id', $building->id)->update([
+                'title' => $request->input('title'),
+                'architect' => $request->input('architect'),
+                'constructionyear' => $request->input('constructionyear'),
+                'description' => $request->input('description'),
+                'image_path' => $imageName
+            ]);        
+            return redirect()->route('building.index')->with('success', 'Building updated successfully.');
+        } else {
+            return redirect()->route('building.index')->with('failure', "Error, not allowed");
         }
-
-        Building::where('id', $building->id)->update([
-            'title' => $request->input('title'),
-            'architect' => $request->input('architect'),
-            'constructionyear' => $request->input('constructionyear'),
-            'description' => $request->input('description'),
-            'image_path' => $imageName
-        ]);        
-        return redirect()->route('building.index')->with('success', 'Building updated successfully.');
     }
 
     /**
@@ -151,7 +160,7 @@ class BuildingController extends Controller
      */
     public function destroy(Building $building)
     {
-        if(count(auth()->user()->buildings) > 5 && Auth::user()->id === $building->user_id) {
+        if(count(auth()->user()->buildings) > 4 && Auth::user()->id === $building->user_id || Auth::user()->user_type === 'Administrator') {
             File::delete(public_path("images/" . $building->image_path));
             $building->delete();
             return redirect()->route('building.index')

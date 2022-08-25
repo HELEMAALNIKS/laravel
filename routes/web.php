@@ -48,9 +48,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         })->name('dashboard');
       });
 
-    // Route::get('/admin', function () {
-    //     return view('dashboards.admin');
-    // });
     Route::resource('building',BuildingController::class)->middleware('auth');
 
     Route::get('search/', 'BuildingController@search')->name('search');

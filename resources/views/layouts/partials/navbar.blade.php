@@ -11,7 +11,7 @@
       </li>
         @guest
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Buildings</a>
+            <a class="nav-link disabled" href="">Buildings</a>
           </li>
         @endguest
         @auth
