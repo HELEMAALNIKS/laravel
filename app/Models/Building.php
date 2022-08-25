@@ -20,6 +20,7 @@ class Building extends Model
             'architect',
             'constructionyear',
             'created_at',
-            'image_path'
+            'image_path',
+            'user_id'
         ];
 }

@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateBuildingRequest;
 use Illuminate\Http\Request;
 use App\Models\Building;
 use Illuminate\Support\Facades\File;
+use App\Models\User;
+use Auth;
 
 class BuildingController extends Controller
 {
@@ -72,8 +74,13 @@ class BuildingController extends Controller
             'architect' => $request->input('architect'),
             'constructionyear' => $request->input('constructionyear'),
             'description' => $request->input('description'),
-            'image_path' => $newImageName
+            'image_path' => $newImageName,
+            'user_id' => auth()->id()
         ]);
+
+        // $userHasBuildings = User::has('buildings')->find(Auth::user()->id);
+        // dd($userHasBuildings);
+
         return redirect()->route('building.index')->with('success', 'Building created successfully.');
     }
 
@@ -144,9 +151,13 @@ class BuildingController extends Controller
      */
     public function destroy(Building $building)
     {
-        File::delete(public_path("images/" . $building->image_path));
-        $building->delete();
-        return redirect()->route('building.index')
-        ->with('success', 'Building deleted successfully');
+        if(count(auth()->user()->buildings) > 5 && Auth::user()->id === $building->user_id) {
+            File::delete(public_path("images/" . $building->image_path));
+            $building->delete();
+            return redirect()->route('building.index')
+            ->with('success', 'Building deleted successfully');
+        } else {
+            return redirect()->route('building.index')->with('failure', "Error, not allowed");
+        };
     }
 }

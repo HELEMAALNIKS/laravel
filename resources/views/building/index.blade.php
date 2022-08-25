@@ -23,12 +23,15 @@
                             <h5 class="card-title">{{ $row->title }} ({{ $row->constructionyear}})</h5>
                             <p class="card-text">Architect: {{ $row->architect}}</p>
                             <p class="card-text">{{ $row->description}}</p>
+                            <p class="card-text">{{ $row->user_id}}</p>
                             <a href="{{ route('building.show', $row->id) }}" class="btn btn-primary">Show</a>
                             <a href="{{ route('building.edit', $row->id) }}" class="btn btn-primary">Edit</a>
+                            @if(count(auth()->user()->buildings) > 5 || auth()->user()->user_type == 'Administrator')
                             <form action="{{ url('building' , $row->id ) }}" method="POST" class="d-inline">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
                             <button class="btn btn-danger">Delete</button>
+                            @endif
                             </form>
                         </div>
                         </div>
